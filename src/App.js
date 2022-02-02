@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Prayers from "./components/Prayers";
+import "./App.scss";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Alquran from "./components/alquran";
+import Surah from "./components/surah";
+import Juz from "./components/juz";
+
+const lightTheme = createTheme({
+  palette: {
+    type: "light",
+    primary: {
+      main: "#3f51b1",
+    },
+    textPrimary: { main: "#3f51b1" },
+  },
+});
+
+const darkTheme1 = createTheme({
+  palette: {
+    type: "dark",
+    primary: { main: "#fff" },
+    textPrimary: { main: "#fff" },
+  },
+});
 
 function App() {
+  const [darkTheme] = useState(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme ? lightTheme : darkTheme1}>
+      <div className="App">
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <Home />
+                  <Prayers />
+                </div>
+              }
+            />
+            <Route exact path="/al-Quran" element={<Alquran />} />
+            <Route exact path="/al-Quran/:id" element={<Surah />} />
+            <Route exact path="/al-Quran/juz/:id" element={<Juz />} />
+          </Routes>
+        </Router>
+      </div>
+    </ThemeProvider>
   );
 }
 

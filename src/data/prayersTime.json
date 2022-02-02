@@ -1,0 +1,89 @@
+{
+  "code": 200,
+  "status": "OK",
+  "data": {
+    "timings": {
+      "Fajr": "05:42",
+      "Sunrise": "06:54",
+      "Dhuhr": "12:03",
+      "Asr": "14:52",
+      "Sunset": "17:12",
+      "Maghrib": "17:12",
+      "Isha": "18:24",
+      "Imsak": "05:32",
+      "Midnight": "00:03"
+    },
+    "date": {
+      "readable": "21 Jan 2022",
+      "timestamp": "1642825849",
+      "hijri": {
+        "date": "17-06-1443",
+        "format": "DD-MM-YYYY",
+        "day": "17",
+        "weekday": {
+          "en": "Al Juma'a",
+          "ar": "الجمعة"
+        },
+        "month": {
+          "number": 6,
+          "en": "Jumādá al-ākhirah",
+          "ar": "جُمادى الآخرة"
+        },
+        "year": "1443",
+        "designation": {
+          "abbreviated": "AH",
+          "expanded": "Anno Hegirae"
+        },
+        "holidays": []
+      },
+      "gregorian": {
+        "date": "21-01-2022",
+        "format": "DD-MM-YYYY",
+        "day": "21",
+        "weekday": {
+          "en": "Friday"
+        },
+        "month": {
+          "number": 1,
+          "en": "January"
+        },
+        "year": "2022",
+        "designation": {
+          "abbreviated": "AD",
+          "expanded": "Anno Domini"
+        }
+      }
+    },
+    "meta": {
+      "latitude": 33.629753,
+      "longitude": -117.8554009,
+      "timezone": "America/Los_Angeles",
+      "method": {
+        "id": 2,
+        "name": "Islamic Society of North America (ISNA)",
+        "params": {
+          "Fajr": 15,
+          "Isha": 15
+        },
+        "location": {
+          "latitude": 39.70421229999999,
+          "longitude": -86.39943869999999
+        }
+      },
+      "latitudeAdjustmentMethod": "ANGLE_BASED",
+      "midnightMode": "STANDARD",
+      "school": "STANDARD",
+      "offset": {
+        "Imsak": 0,
+        "Fajr": 0,
+        "Sunrise": 0,
+        "Dhuhr": 0,
+        "Asr": 0,
+        "Maghrib": 0,
+        "Sunset": 0,
+        "Isha": 0,
+        "Midnight": 0
+      }
+    }
+  }
+}
