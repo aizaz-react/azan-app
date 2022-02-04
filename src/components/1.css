@@ -68,7 +68,7 @@
 }
 
 .rdtPicker td.rdtActive.rdtToday:before {
-  border-bottom-color: #3ba59a;
+  /* border-bottom-color: #3ba59a; */
 }
 .rdtPicker td.rdtDisabled,
 .rdtPicker td.rdtDisabled:hover {

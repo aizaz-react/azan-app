@@ -42,7 +42,6 @@ const Prayers = () => {
       setDay(data?.data?.date?.hijri?.day);
       setMonth(data?.data?.date?.hijri?.month);
       setYear(data?.data?.date?.hijri?.year);
-      console.log(data?.data?.date);
       setEnglishDate(
         `${data?.data?.date.gregorian.weekday.en}, ${data?.data?.date.gregorian.day} ${data?.data?.date.gregorian.month.en} ${data?.data?.date.gregorian.year}`
       );
@@ -52,7 +51,16 @@ const Prayers = () => {
   };
   useEffect(() => {
     getLocation();
-  }, []);
+  }, [time]);
+
+  const compareTime = moment().format("hh:mm");
+  const closestTime = getFivePrayers(data?.timings).find(({ time }) => {
+    const diff = moment(time, "hh:mm").diff(compareTime, "minutes");
+    console.log(moment(time).format("hh:mm"));
+    console.log(time);
+    return diff >= 0;
+  });
+  console.log(getFivePrayers(data?.timings));
 
   return (
     <div id="prayers" className="prayers">
@@ -146,6 +154,7 @@ const Prayers = () => {
           <Grid item xs={12} sm={5}>
             <Item>
               <Datetime
+                timeFormat={false}
                 input={false}
                 name="expiration_time"
                 timeFormat="HH:mm:ss"
