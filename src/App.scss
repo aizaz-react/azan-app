@@ -22,6 +22,7 @@
     justify-content: space-between;
     padding: 1rem 3rem;
     margin: 1rem 0rem;
+    animation: gradient 15s ease infinite;
   }
   .prayers-heading {
     display: flex;
@@ -46,7 +47,6 @@
       rgba(34, 193, 195, 1) 9%,
       rgba(45, 164, 253, 1) 100%
     );
-    width: 100vw;
     height: 30vh;
     display: flex;
     justify-content: center;

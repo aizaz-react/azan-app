@@ -6,6 +6,7 @@ import Logo from "../assets/logo";
 import Button from "@mui/material/Button";
 import surahs from "../data/surahs.json";
 import { useNavigate } from "react-router-dom";
+import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -60,6 +61,7 @@ const Alquran = () => {
         onClick={() => setToggled(!toggled)}
       >
         {toggled ? "JUZ" : "SURAH"}
+        <FlipCameraAndroidIcon style={{ marginLeft: "1rem" }} />
       </Button>
       <div container className="al-quran-surahs" spacing={3}>
         {toggled

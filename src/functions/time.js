@@ -6,7 +6,6 @@ export const getTime = (time) => {
 };
 
 export const getFivePrayers = (data) => {
-  console.log(data);
   let prayers = _.pick(data, ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]);
   let prayerList = [];
   for (let [prayer, time] of Object.entries(prayers)) {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getSingleSurah } from "../services/api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
+import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 
 const Juz = () => {
   const { id } = useParams();
@@ -43,11 +44,14 @@ const Juz = () => {
         onClick={() => setTranslationType(!translationType)}
       >
         {translationType ? "English" : "Urdu"}
+        <FlipCameraAndroidIcon style={{ marginLeft: "1rem" }} />
       </Button>
       <div className="ayahs">
-        {id.split(",")[0] !== "9" && id.split(",")[1] !== "1" && (
-          <p id="bold">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</p>
-        )}
+        {id.split(",")[0] !== "9" &&
+          id.split(",")[1] !== "1" &&
+          id.split(",")[0] !== "1" && (
+            <p id="bold">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</p>
+          )}
         {!surahData && (
           <div style={{ marginTop: "10rem" }}>
             <CircularProgress color="success" />

@@ -3,11 +3,13 @@ import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import { format, parse } from "date-fns";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Datetime from "react-datetime";
 import "./1.css";
 import { getTime, getFivePrayers } from "../functions/time";
+import { getPrayerTime1 } from "../functions/upcomingTime";
 import { getUserLocation, getPrayerTimeApi } from "../services/api";
 import moment from "moment";
 
@@ -26,6 +28,7 @@ const Prayers = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [englishDate, setEnglishDate] = useState("");
+
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
@@ -34,7 +37,6 @@ const Prayers = () => {
       console.log(error);
     }
   };
-
   const getPrayerTime = async (country, latitude, longitude) => {
     try {
       let { data } = await getPrayerTimeApi(country, latitude, longitude);
@@ -49,18 +51,10 @@ const Prayers = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getLocation();
   }, [time]);
-
-  const compareTime = moment().format("hh:mm");
-  const closestTime = getFivePrayers(data?.timings).find(({ time }) => {
-    const diff = moment(time, "hh:mm").diff(compareTime, "minutes");
-    console.log(moment(time).format("hh:mm"));
-    console.log(time);
-    return diff >= 0;
-  });
-  console.log(getFivePrayers(data?.timings));
 
   return (
     <div id="prayers" className="prayers">
@@ -98,7 +92,17 @@ const Prayers = () => {
           </Grid>
         </Grid>
         <Grid container spacing={6}>
-          <Grid item xs={12} sm={7}>
+          <Grid
+            item
+            xs={12}
+            sm={7}
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
             <Item>
               <Button
                 style={{
@@ -122,7 +126,14 @@ const Prayers = () => {
               {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
                 <Button
                   style={{
-                    backgroundColor: "#fff",
+                    backgroundColor:
+                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                        ? "#3ba59a"
+                        : "#fff",
+                    color:
+                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                        ? "#fff"
+                        : "black",
                   }}
                   className="prayer-btn"
                   variant="contained"
@@ -151,15 +162,49 @@ const Prayers = () => {
               </Button>
             </Item>
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            style={{
+              flex: "1",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
             <Item>
+              <Typography variant="h4" style={{ color: "#3ba59a" }}>
+                Prayer Times by date
+              </Typography>
               <Datetime
                 timeFormat={false}
                 input={false}
                 name="expiration_time"
-                timeFormat="HH:mm:ss"
+                // value={new Date(time)}
                 onChange={(e) => setTime(moment(e).unix())}
               />
+            </Item>
+            <Item>
+              <Typography variant="h4" style={{ color: "#3ba59a" }}>
+                Recite Holy Quran
+              </Typography>
+
+              <Link href="/al-Quran" style={{ textDecoration: "none" }}>
+                <Button
+                  style={{
+                    backgroundColor: "#FEC265",
+                    fontWeight: "bold",
+                    color: "black",
+                    padding: "1rem 3rem",
+                    fontSize: "1.3rem",
+                    borderRadius: "0.5rem",
+                  }}
+                  variant="contained"
+                >
+                  Al-Quran
+                </Button>
+              </Link>
             </Item>
             <Item style={{ marginTop: "3rem", padding: "4.45rem 1.5rem " }}>
               <Typography variant="h4" style={{ color: "#3ba59a" }}>
@@ -180,23 +225,6 @@ const Prayers = () => {
               >
                 1:30 PM
               </Button>
-            </Item>
-            <Item>
-              <Link href="/al-Quran" style={{ textDecoration: "none" }}>
-                <Button
-                  style={{
-                    backgroundColor: "#FEC265",
-                    fontWeight: "bold",
-                    color: "black",
-                    padding: "1rem 3rem",
-                    fontSize: "1.3rem",
-                    borderRadius: "0.5rem",
-                  }}
-                  variant="contained"
-                >
-                  Recite Holy Quran
-                </Button>
-              </Link>
             </Item>
           </Grid>
         </Grid>
