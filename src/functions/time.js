@@ -13,3 +13,7 @@ export const getFivePrayers = (data) => {
   }
   return prayerList;
 };
+
+export const calenderTime = (time) => {
+  return time.split(" ")[0];
+};

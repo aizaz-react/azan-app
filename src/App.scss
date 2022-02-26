@@ -21,7 +21,7 @@
     display: flex;
     justify-content: space-between;
     padding: 1rem 3rem;
-    margin: 1rem 0rem;
+    margin: 0.4rem 0rem;
     animation: gradient 15s ease infinite;
   }
   .prayers-heading {
@@ -208,5 +208,69 @@
     padding: 0rem 0.5rem;
     border-radius: 50px;
     border: 1px solid black;
+  }
+}
+.prayer-calender {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-direction: column;
+  margin-top: 1rem;
+  .inputs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .drop-down {
+      width: 8rem;
+      height: 2.3rem;
+      background-color: #22c1c3;
+      margin: 1% 0%;
+      padding: 0% 1%;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 5px;
+      color: #fff;
+      border: none;
+      option {
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 400;
+        width: 100%;
+        background-color: #fff;
+        color: gray;
+      }
+    }
+    .drop-down:focus {
+      outline: none;
+    }
+  }
+
+  .table-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #22c1c3;
+    width: 100%;
+    div {
+      flex: 1;
+      text-align: left;
+      padding: 0rem 0.5rem;
+      color: #fff;
+    }
+  }
+  .table-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff;
+    width: 100%;
+    div {
+      flex: 1;
+      text-align: left;
+      padding: 0rem 0.5rem;
+      color: black;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
   }
 }

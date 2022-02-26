@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import { format, parse } from "date-fns";
+import Calender from "./Calender";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import Datetime from "react-datetime";
@@ -28,18 +27,19 @@ const Prayers = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [englishDate, setEnglishDate] = useState("");
-
+  const [location, setLocation] = useState({});
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
+      setLocation(data);
       data && getPrayerTime(time, data?.latitude, data?.longitude);
     } catch (error) {
       console.log(error);
     }
   };
-  const getPrayerTime = async (country, latitude, longitude) => {
+  const getPrayerTime = async (time, latitude, longitude) => {
     try {
-      let { data } = await getPrayerTimeApi(country, latitude, longitude);
+      let { data } = await getPrayerTimeApi(time, latitude, longitude);
       setData(data.data);
       setDay(data?.data?.date?.hijri?.day);
       setMonth(data?.data?.date?.hijri?.month);
@@ -103,64 +103,7 @@ const Prayers = () => {
               justifyContent: "space-between",
             }}
           >
-            <Item>
-              <Button
-                style={{
-                  backgroundColor: "#FEC265",
-                }}
-                className="prayer-btn"
-                variant="contained"
-                fullWidth
-              >
-                <div>Sun RIse</div>
-                <div>
-                  {data && data.timings && getTime(data?.timings?.Sunrise)}
-                </div>
-              </Button>
-            </Item>
-            <Item style={{ marginTop: "3rem" }}>
-              <div className="prayers-heading">
-                <p>Salah</p>
-                <p>Begins</p>
-              </div>
-              {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
-                <Button
-                  style={{
-                    backgroundColor:
-                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                        ? "#3ba59a"
-                        : "#fff",
-                    color:
-                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                        ? "#fff"
-                        : "black",
-                  }}
-                  className="prayer-btn"
-                  variant="contained"
-                  fullWidth
-                  key={i}
-                >
-                  <div>{prayer}</div>
-                  <div>{getTime(time)}</div>
-                </Button>
-              ))}
-            </Item>
-            <Item style={{ marginTop: "3rem" }}>
-              <Button
-                style={{
-                  backgroundColor: "#121A41",
-                  color: "#fff",
-                }}
-                className="prayer-btn"
-                variant="contained"
-                fullWidth
-              >
-                <div>Sun set</div>
-                <div>
-                  {data && data.timings && getTime(data?.timings?.Sunset)}
-                </div>
-              </Button>
-            </Item>
+            {location && <Calender location={location?.country} />}
           </Grid>
           <Grid
             item
@@ -181,11 +124,72 @@ const Prayers = () => {
                 timeFormat={false}
                 input={false}
                 name="expiration_time"
-                // value={new Date(time)}
                 onChange={(e) => setTime(moment(e).unix())}
               />
             </Item>
-            <Item>
+            <div className="prayers-heading">
+              <p>Salah</p>
+              <p>Begins</p>
+            </div>
+            <Button
+              style={{
+                backgroundColor: "#FEC265",
+              }}
+              className="prayer-btn"
+              variant="contained"
+              fullWidth
+            >
+              <div>Sun RIse</div>
+              <div>
+                {data && data.timings && getTime(data?.timings?.Sunrise)}
+              </div>
+            </Button>
+            {/* <Item>
+            </Item> */}
+            {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
+              <Button
+                style={{
+                  backgroundColor:
+                    getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                      ? "#3ba59a"
+                      : "#fff",
+                  color:
+                    getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                      ? "#fff"
+                      : "black",
+                }}
+                className="prayer-btn"
+                variant="contained"
+                fullWidth
+                key={i}
+              >
+                <div>{prayer}</div>
+                {getPrayerTime1(getFivePrayers(data?.timings)) === prayer && (
+                  <div>{`Next Prayer`}</div>
+                )}
+                <div>{getTime(time)}</div>
+              </Button>
+            ))}
+            {/* <Item style={{ marginTop: "3rem" }}>
+            </Item> */}
+            <Button
+              style={{
+                backgroundColor: "#121A41",
+                color: "#fff",
+              }}
+              className="prayer-btn"
+              variant="contained"
+              fullWidth
+            >
+              <div>Sun set</div>
+              <div>
+                {data && data.timings && getTime(data?.timings?.Sunset)}
+              </div>
+            </Button>
+            {/* <Item style={{ marginTop: "3rem" }}>
+            </Item> */}
+            {/* <Item>
+
               <Typography variant="h4" style={{ color: "#3ba59a" }}>
                 Recite Holy Quran
               </Typography>
@@ -225,7 +229,7 @@ const Prayers = () => {
               >
                 1:30 PM
               </Button>
-            </Item>
+            </Item> */}
           </Grid>
         </Grid>
       </Grid>

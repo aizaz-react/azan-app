@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// type= translation ? "urdu_junagarhi" : "english_saheeh" , number= 1 to 114
 export function getSingleSurah(number, type) {
   return axios({
     method: "GET",
@@ -20,7 +21,7 @@ export async function getUserLocation() {
     },
   });
 }
-
+// time uix
 export function getPrayerTimeApi(time, latitude, longitude) {
   if (latitude || longitude) {
     return axios({
@@ -32,3 +33,13 @@ export function getPrayerTimeApi(time, latitude, longitude) {
     });
   }
 }
+
+export const getCalender = async (country, month, year, type) => {
+  return axios({
+    method: "GET",
+    url: `https://api.aladhan.com/v1/calendarByAddress?address=${country}&method=2&month=${month}&year=${year}&school=${type}`,
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+};
