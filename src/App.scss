@@ -1,13 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Jomhuria&display=swap");
 @import url("http://fonts.googleapis.com/earlyaccess/droidarabickufi.css");
 @import url("https://fonts.googleapis.com/earlyaccess/notonaskharabic.css");
-@font-face {
-  font-family: "Arabic";
-  src: local("Arabic"),
-    url(./assets/PDMS_Saleem_QuranFont_shipped.ttf) format("ttf");
-  /* other formats include: 'woff2', 'truetype, 'opentype',
-                            'embedded-opentype', and 'svg' */
-}
 
 .App {
   text-align: center;
@@ -161,7 +154,7 @@
   h1 {
     color: #fff;
     margin: 0%;
-    font-family: "Droid Arabic Kufi";
+    font-family: "Noto Naskh Arabic";
   }
   .ayahs {
     display: flex;
@@ -181,22 +174,12 @@
       font-weight: 600;
       margin: 1rem;
     }
-    .single-ayah {
-      display: flex;
-      width: auto;
-      height: auto;
-      border: 1px solid #22c1c3;
-      font-family: "Arabic";
-      flex-direction: column;
-      border-radius: 1rem;
-      padding: 1rem 1rem;
-    }
   }
   #bold {
     font-size: 1.5rem;
     font-weight: bold;
     text-align: center;
-    font-family: "Droid Arabic Kufi";
+    font-family: "Noto Naskh Arabic";
     color: #22c1c3;
   }
 }
@@ -204,7 +187,7 @@
 #arabic {
   display: flex;
   direction: rtl;
-  font-family: "Droid Arabic Kufi";
+  font-family: "Noto Naskh Arabic";
   padding: 0rem 1rem;
   text-align: right;
   font-size: 1.1rem;
