@@ -4,6 +4,11 @@ import { getSingleSurah } from "../services/api";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Juz = () => {
   const { id } = useParams();
@@ -60,20 +65,36 @@ const Juz = () => {
         {surahData &&
           surahData?.map(
             ({ arabic_text, aya, translation, footnotes }, index) => (
-              <div className="single-ayah">
-                <p className="arabic" id="bold">
-                  {arabic_text}({aya})
-                </p>
-                <p
-                  className={translationType ? "arabic" : "english"}
-                  id="halfbold"
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
                 >
-                  {translation}
-                </p>
-                <p className={translationType ? "arabic" : "english"}>
-                  {footnotes}
-                </p>
-              </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <p className="arabic" id="bold">
+                      {arabic_text}({aya})
+                    </p>
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <p
+                    className={translationType ? "urdu" : "english"}
+                    id="halfbold"
+                  >
+                    {translation}
+                  </p>
+                  <p className={translationType ? "urdu" : "english"}>
+                    {footnotes}
+                  </p>
+                </AccordionDetails>
+              </Accordion>
             )
           )}
       </div>
