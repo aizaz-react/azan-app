@@ -52,16 +52,17 @@ export default function SignInSide() {
               </span>
             </blockquote>
           </Typography>
-          <Link href="#prayers" style={{ textDecoration: "none" }}>
+          <Link href="/al-Quran" style={{ textDecoration: "none" }}>
             <Button
               style={{
                 backgroundColor: "#FEC265",
                 fontWeight: "bold",
                 color: "black",
+                width: "8rem",
               }}
               variant="contained"
             >
-              Get Prayers
+              Al Quran
             </Button>
           </Link>
         </Grid>

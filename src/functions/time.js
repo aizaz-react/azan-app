@@ -2,7 +2,7 @@ import { format, parse } from "date-fns";
 import _ from "lodash";
 
 export const getTime = (time) => {
-  return format(parse(time, "HH:mm", new Date()), "hh:mm a");
+  return format(parse(time.split(" ")[0], "HH:mm", new Date()), "hh:mm a");
 };
 
 export const getFivePrayers = (data) => {

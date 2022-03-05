@@ -1,30 +1,25 @@
 import { useEffect, useState } from "react";
-import { getCalender } from "../services/api";
 import { calenderTime } from "../functions/time";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import { Button } from "@mui/material";
-import { countryNames, months, years } from "../data/rawData";
-import moment from "moment";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-const Calender = ({ location }) => {
-  const [state, setState] = useState([]);
-  const [country, setCountry] = useState(`${location}`);
-  const [year, setYear] = useState(parseInt(moment().format("YYYY")));
-  const [month, setMonth] = useState(parseInt(moment().format("M")));
-  const [type, setType] = useState(0);
+const style = {
+  color: "#22c1c3",
+  "&.Mui-checked": {
+    color: "#22c1c3",
+  },
+};
+
+const Calender = ({ location, set, calenderData, type }) => {
+  const [state, setState] = useState(calenderData);
   useEffect(() => {
-    setCountry(location);
-  }, [location]);
-  const getPrayerData = async () => {
-    try {
-      let { data } = await getCalender(country, month, year, type);
-      setState(data?.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    setState(calenderData);
+  }, [calenderData]);
   const data = state?.map(({ date, timings }) => [
     date.readable,
     calenderTime(timings.Fajr),
@@ -41,7 +36,7 @@ const Calender = ({ location }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(15);
-    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${country}`;
+    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location} By Azaan App.`;
     let content = {
       startY: 50,
       head: [columns],
@@ -49,12 +44,13 @@ const Calender = ({ location }) => {
     };
     doc.text(title, marginLeft, 40);
     doc.autoTable(content);
-    doc.save(`${state[0]?.date?.gregorian.month.en}${country}.pdf`);
+    let finalY = doc.lastAutoTable.finalY + 40; // The y position on the page
+    console.log(finalY);
+    doc.text(250, finalY, "AZAAN APP");
+    // doc.text(600, 80, 'blablabla')
+    doc.save(`${state[0]?.date?.gregorian.month.en}${location}.pdf`);
   };
 
-  useEffect(() => {
-    getPrayerData();
-  }, [country, month, year, type]);
   return (
     <div className="prayer-calender">
       <div
@@ -66,63 +62,29 @@ const Calender = ({ location }) => {
           justifyContent: "center",
         }}
       >
-        <div id="borders" className="inputs">
-          <select
-            className="drop-down"
-            name="category"
-            onChange={(e) => setMonth(e.target.value)}
-          >
-            {months.map((value) => {
-              return (
-                <option value={value.number} selected={value.number === month}>
-                  {value.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div id="borders" className="inputs">
-          <select
-            className="drop-down"
-            name="category"
-            onChange={(e) => setYear(e.target.value)}
-          >
-            {years.map((value) => {
-              return (
-                <option value={value} selected={value === year}>
-                  {value}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div id="borders" className="inputs">
-          <select
-            className="drop-down"
-            name="category"
-            onChange={(e) => setCountry(e.target.value)}
-          >
-            {countryNames.map((value) => {
-              return (
-                <option value={value.name} selected={value.name === country}>
-                  {value.name}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-        <div id="borders" className="inputs">
-          <select
-            className="drop-down"
-            name="category"
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value={0} selected={type}>
-              Shafi
-            </option>
-            <option value={1}>Hanfi</option>
-          </select>
-        </div>
+        <RadioGroup
+          style={{
+            width: "15rem",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+          onChange={(e) => set(e.target.value)}
+          value={type}
+        >
+          <FormControlLabel
+            value={0}
+            control={<Radio sx={style} />}
+            label="SHAFI"
+          />
+          <FormControlLabel
+            value={1}
+            control={<Radio sx={style} />}
+            label="HANFI"
+          />
+        </RadioGroup>
       </div>
       <div className="table-header">
         {columns.map((column, i) => (
