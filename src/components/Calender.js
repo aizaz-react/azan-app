@@ -36,7 +36,7 @@ const Calender = ({ location, set, calenderData, type }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(15);
-    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location} By Azaan App.`;
+    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.city} ${location?.country} By Azaan App.`;
     let content = {
       startY: 50,
       head: [columns],
@@ -48,7 +48,7 @@ const Calender = ({ location, set, calenderData, type }) => {
     console.log(finalY);
     doc.text(250, finalY, "AZAAN APP");
     // doc.text(600, 80, 'blablabla')
-    doc.save(`${state[0]?.date?.gregorian.month.en}${location}.pdf`);
+    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.city}.pdf`);
   };
 
   return (

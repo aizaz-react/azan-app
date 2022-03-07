@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import surahs from "../data/surahs.json";
 import { useNavigate } from "react-router-dom";
 import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
+import Wave from "react-wavify";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -40,6 +41,17 @@ const Alquran = () => {
 
   return (
     <div id="al-Quran" className="al-quran">
+      <Wave
+        className="wave1"
+        fill="#3ba59a"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 50,
+          speed: 0.1,
+          points: 5,
+        }}
+      />
       <div className="search">
         <Logo width="6rem" />
         <Item>

@@ -5,7 +5,8 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Logo from "../assets/logo";
+import Logo from "../assets/LogoBlue";
+import Wave from "react-wavify";
 
 const theme = createTheme();
 
@@ -22,16 +23,29 @@ export default function SignInSide() {
           style={{
             display: "flex",
             flexDirection: "column",
-            padding: "1.5rem 0.5rem",
             alignItems: "center",
             textAlign: "center",
           }}
         >
+          <Wave
+            className="wave"
+            fill="#3ba59a"
+            paused={false}
+            options={{
+              height: 20,
+              amplitude: 45,
+              speed: 0.1,
+              points: 5,
+            }}
+          />
           <Logo width="13rem" />
           <Typography
             variant="h3"
             component="div"
-            style={{ marginTop: "0.5rem", color: "#3ba59a" }}
+            style={{
+              marginTop: "0.5rem",
+              color: "#3ba59a",
+            }}
           >
             Azaan App
           </Typography>
@@ -41,6 +55,7 @@ export default function SignInSide() {
             style={{
               fontWeight: "bold",
               fontSize: "1.6rem",
+              padding: "1.5rem 0.5rem",
             }}
           >
             <blockquote cite="">

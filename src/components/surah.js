@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getSingleSurah } from "../services/api";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -7,8 +7,8 @@ import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Wave from "react-wavify";
 
 const Juz = () => {
   const { id } = useParams();
@@ -33,6 +33,17 @@ const Juz = () => {
 
   return (
     <div className="surah">
+      <Wave
+        className="wave1"
+        fill="#3ba59a"
+        paused={false}
+        options={{
+          height: 30,
+          amplitude: 50,
+          speed: 0.1,
+          points: 5,
+        }}
+      />
       <div className="headings">
         <h1>{id.split(",")[1]}</h1>
         <h1>({id.split(",")[2]})</h1>

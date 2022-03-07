@@ -11,6 +11,7 @@ import { getTime, getFivePrayers } from "../functions/time";
 import { getPrayerTime1 } from "../functions/upcomingTime";
 import { getUserLocation, getCalender } from "../services/api";
 import moment from "moment";
+import Wave from "react-wavify";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -34,7 +35,6 @@ const Prayers = () => {
     try {
       let { data } = await getUserLocation();
       setLocation(data);
-      console.log(data);
       data && getPrayerTime(data.country, data?.latitude, data?.longitude);
     } catch (error) {
       console.log(error);
@@ -71,187 +71,156 @@ const Prayers = () => {
   }, [time, type]);
 
   return (
-    <div id="prayers" className="prayers">
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={5} textAlign={"start"}>
-          <Typography
-            variant="h5"
-            component="h2"
-            style={{ fontWeight: "bold", fontSize: "1.7rem" }}
-          >
-            Azaan App give you daily prayer time as well as past and future
-            time.
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={7} textAlign={"start"}>
-          <Typography
-            variant="h5"
-            component="h2"
-            style={{ fontSize: "1.3rem" }}
-          >
-            The Salat is the Time when Meeting with Allah and the
-            ascension(Mi-raj) of the believers takes place. we all know the
-            importance of this obligatory act, and thus, we do not wish to delve
-            ibto that area.
-          </Typography>
-        </Grid>
-        <Grid container spacing={2} marginTop={"1rem"}>
-          <Grid item xs={12}>
-            
-            <Typography style={{ fontSize: "1.5rem" }}>
-              {englishDate}{" "}
-              <span id="islamic-date">
-                ({day} {month} {year} )
-              </span>
+    <div>
+      <div id="prayers" className="prayers">
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={5} textAlign={"start"}>
+            <Typography
+              variant="h5"
+              component="h2"
+              style={{ fontWeight: "bold", fontSize: "1.7rem" }}
+            >
+              Azaan App give you daily prayer time as well as past and future
+              time.
             </Typography>
           </Grid>
-        </Grid>
-        <Grid container spacing={6}>
-          <Grid
-            item
-            xs={12}
-            sm={7}
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            {location && (
-              <Calender
-                calenderData={calenderData}
-                location={location?.country}
-                set={setType}
-                type={type}
-              />
-            )}
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={5}
-            style={{
-              flex: "1",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-            }}
-          >
-            <Item>
-              <Typography variant="h4" style={{ color: "#3ba59a" }}>
-                Prayer Times by date
-              </Typography>
-              <Datetime
-                timeFormat={false}
-                input={false}
-                name="expiration_time"
-                onChange={(e) => setTime(moment(e).unix())}
-              />
-            </Item>
-            <div className="prayers-heading">
-              <p>Salah</p>
-              <p>Begins</p>
-            </div>
-            <Button
-              style={{
-                backgroundColor: "#FEC265",
-              }}
-              className="prayer-btn"
-              variant="contained"
-              fullWidth
+          <Grid item xs={12} sm={7} textAlign={"start"}>
+            <Typography
+              variant="h5"
+              component="h2"
+              style={{ fontSize: "1.3rem" }}
             >
-              <div>Sun RIse</div>
-              <div>
-                {data && data.timings && getTime(data?.timings?.Sunrise)}
+              The Salat is the time when the meeting with Allah and the
+              ascension (Me'raj) of the believer takes place. We all know the
+              importance of this obligatory act, and thus, we do not wish to
+              delve into that area. Rather, we want to look at the greatness and
+              rewards of performing the Salat in its ' appointed time' - meaning
+              right when the prime time for it sets in.
+            </Typography>
+          </Grid>
+          <Grid container spacing={2} marginTop={"1rem"}>
+            <Grid item xs={12}>
+              <Typography style={{ fontSize: "1.5rem" }}>
+                {englishDate}{" "}
+                <span id="islamic-date">
+                  ({day} {month} {year} )
+                </span>
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container spacing={6}>
+            <Grid
+              item
+              xs={12}
+              sm={7}
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              {location && (
+                <Calender
+                  calenderData={calenderData}
+                  location={location}
+                  set={setType}
+                  type={type}
+                />
+              )}
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              style={{
+                flex: "1",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <Item>
+                <Typography variant="h4" style={{ color: "#3ba59a" }}>
+                  Prayer Times by date
+                </Typography>
+                <Datetime
+                  timeFormat={false}
+                  input={false}
+                  name="expiration_time"
+                  onChange={(e) => setTime(moment(e).unix())}
+                />
+              </Item>
+              <div className="prayers-heading">
+                <p>Salah</p>
+                <p>Begins</p>
               </div>
-            </Button>
-            {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
               <Button
                 style={{
-                  backgroundColor:
-                    getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                      ? "#3ba59a"
-                      : "#fff",
-                  color:
-                    getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                      ? "#fff"
-                      : "black",
+                  backgroundColor: "#FEC265",
+                  display: data && "flex",
                 }}
                 className="prayer-btn"
                 variant="contained"
                 fullWidth
-                key={i}
               >
-                <div>{prayer}</div>
-                {getPrayerTime1(getFivePrayers(data?.timings)) === prayer && (
-                  <div>{`Next Prayer`}</div>
-                )}
-                <div>{getTime(time)}</div>
+                <div>Sun RIse</div>
+                <div>
+                  {data && data.timings && getTime(data?.timings?.Sunrise)}
+                </div>
               </Button>
-            ))}
-            <Button
-              style={{
-                backgroundColor: "#121A41",
-                color: "#fff",
-              }}
-              className="prayer-btn"
-              variant="contained"
-              fullWidth
-            >
-              <div>Sun set</div>
-              <div>
-                {data && data.timings && getTime(data?.timings?.Sunset)}
-              </div>
-            </Button>
-            {/* <Item style={{ marginTop: "3rem" }}>
-            </Item> */}
-            {/* <Item>
-
-              <Typography variant="h4" style={{ color: "#3ba59a" }}>
-                Recite Holy Quran
-              </Typography>
-
-              <Link href="/al-Quran" style={{ textDecoration: "none" }}>
+              {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
                 <Button
                   style={{
-                    backgroundColor: "#FEC265",
-                    fontWeight: "bold",
-                    color: "black",
-                    padding: "1rem 3rem",
-                    fontSize: "1.3rem",
-                    borderRadius: "0.5rem",
+                    backgroundColor:
+                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                        ? "#3ba59a"
+                        : "#fff",
+                    color:
+                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
+                        ? "#fff"
+                        : "black",
                   }}
+                  className="prayer-btn"
                   variant="contained"
+                  fullWidth
+                  key={i}
                 >
-                  Al-Quran
+                  <div>{prayer}</div>
+                  {getPrayerTime1(getFivePrayers(data?.timings)) === prayer && (
+                    <div>{`Next Prayer`}</div>
+                  )}
+                  <div>{getTime(time)}</div>
                 </Button>
-              </Link>
-            </Item>
-            <Item style={{ marginTop: "3rem", padding: "4.45rem 1.5rem " }}>
-              <Typography variant="h4" style={{ color: "#3ba59a" }}>
-                Jummah Khutba Begins At
-              </Typography>
+              ))}
               <Button
                 style={{
-                  backgroundColor: "#212830",
-                  fontWeight: "bold",
-                  padding: "1rem 3rem",
-                  fontSize: "1.3rem",
-                  borderRadius: "0.5rem",
-                  marginTop: "1rem",
-                  color: "#FEC265",
+                  backgroundColor: "#121A41",
+                  color: "#fff",
                 }}
+                className="prayer-btn"
                 variant="contained"
                 fullWidth
               >
-                1:30 PM
+                <div>Sun set</div>
+                <div>
+                  {data && data.timings && getTime(data?.timings?.Sunset)}
+                </div>
               </Button>
-            </Item> */}
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      <div style={{ width: "100%", height: "100px" }}></div>
+      </div>
+      <Wave
+        fill="#3ba59a"
+        paused={false}
+        options={{
+          height: 20,
+          amplitude: 45,
+          speed: 0.1,
+          points: 5,
+        }}
+      />
     </div>
   );
 };
