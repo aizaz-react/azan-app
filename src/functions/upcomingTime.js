@@ -4,7 +4,7 @@ export const getPrayerTime1 = (time7) => {
   if (time7.length > 0) {
     function getPrayer(prayerName) {
       for (let i = 0; i < time7.length; i++) {
-        if (prayerName == time7[i].prayer) {
+        if (prayerName === time7[i].prayer) {
           return time7[i];
         }
       }
@@ -16,7 +16,7 @@ export const getPrayerTime1 = (time7) => {
     var maghrib = getPrayer("Maghrib");
     var isha = getPrayer("Isha");
 
-    var currentTime =  moment().format("HH:mm");
+    var currentTime = moment().format("HH:mm");
     var currentPrayer = null;
     if (currentTime >= fajar.time && currentTime < duhr.time) {
       currentPrayer = duhr;

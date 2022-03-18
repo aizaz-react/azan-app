@@ -1,7 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, } from "react";
 import { useParams } from "react-router-dom";
-import { getSingleSurah } from "../services/api";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Button } from "@mui/material";
 
 const Juz = () => {

@@ -9,7 +9,11 @@ import Datetime from "react-datetime";
 import "./1.css";
 import { getTime, getFivePrayers } from "../functions/time";
 import { getPrayerTime1 } from "../functions/upcomingTime";
-import { getUserLocation, getCalender } from "../services/api";
+import {
+  getUserLocation,
+  getCalender,
+  getPrayerTimeApi,
+} from "../services/api";
 import moment from "moment";
 import Wave from "react-wavify";
 
@@ -31,6 +35,8 @@ const Prayers = () => {
   const [location, setLocation] = useState({});
   const [type, setType] = useState(0);
   const [calenderData, setCalenderData] = useState([]);
+  const [methodType, setMethodType] = useState(2);
+  const [adjustment, setAdjustment] = useState(0);
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
@@ -41,34 +47,35 @@ const Prayers = () => {
     }
   };
 
-  const getPrayerTime = async (country) => {
+  const getPrayerTime = async (country, lang, long) => {
     try {
-      let { data } = await getCalender(
-        country,
-        moment.unix(time).format("M"),
-        moment.unix(time).format("YYYY"),
-        type
-      );
+      let [{ data }, result] = await Promise.all([
+        getCalender(
+          country,
+          moment.unix(time).format("M"),
+          moment.unix(time).format("YYYY"),
+          type,
+          methodType,
+          adjustment
+        ),
+        getPrayerTimeApi(time, lang, long, methodType, adjustment),
+      ]);
       setCalenderData(data?.data);
-      data.data.map((item, i) => {
-        if (i === parseInt(moment().format("DD")) - 1) {
-          setData(item);
-          setDay(item.date?.hijri?.day);
-          setMonth(item.date?.hijri?.month.en);
-          setYear(item.date?.hijri?.year);
-          setEnglishDate(
-            `${item.date.gregorian.weekday.en}, ${item.date.gregorian.day} ${item.date.gregorian.month.en} ${item.date.gregorian.year}`
-          );
-        }
-      });
+      setData(result?.data?.data);
+      setDay(result?.data?.data.date?.hijri?.day);
+      setMonth(result?.data?.data.date?.hijri?.month.en);
+      setYear(result?.data?.data.date?.hijri?.year);
+      setEnglishDate(
+        `${result?.data?.data.date.gregorian.weekday.en}, ${result?.data?.data.date.gregorian.day} ${result?.data?.data.date.gregorian.month.en} ${result?.data?.data.date.gregorian.year}`
+      );
     } catch (error) {
       console.log(error);
     }
   };
-
+  console.log(location);
   useEffect(() => {
     getLocation();
-  }, [time, type]);
+  }, [time, type, methodType, adjustment]);
 
   return (
     <div>
@@ -101,7 +108,7 @@ const Prayers = () => {
           <Grid container spacing={2} marginTop={"1rem"}>
             <Grid item xs={12}>
               <Typography style={{ fontSize: "1.5rem" }}>
-                {englishDate}{" "}
+                {location.region}, {location.country} {englishDate}{" "}
                 <span id="islamic-date">
                   ({day} {month} {year} )
                 </span>
@@ -126,6 +133,8 @@ const Prayers = () => {
                   location={location}
                   set={setType}
                   type={type}
+                  setMethodType={setMethodType}
+                  setAdjustment={setAdjustment}
                 />
               )}
             </Grid>

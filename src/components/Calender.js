@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { methods, AdjustmentMethod } from "../data/rawData";
 
 const style = {
   color: "#22c1c3",
@@ -15,7 +16,14 @@ const style = {
   },
 };
 
-const Calender = ({ location, set, calenderData, type }) => {
+const Calender = ({
+  location,
+  set,
+  calenderData,
+  type,
+  setMethodType,
+  setAdjustment,
+}) => {
   const [state, setState] = useState(calenderData);
   useEffect(() => {
     setState(calenderData);
@@ -36,7 +44,7 @@ const Calender = ({ location, set, calenderData, type }) => {
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(15);
-    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.city} ${location?.country} By Azaan App.`;
+    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.region} ${location?.country} By Azaan App.`;
     let content = {
       startY: 50,
       head: [columns],
@@ -47,8 +55,7 @@ const Calender = ({ location, set, calenderData, type }) => {
     let finalY = doc.lastAutoTable.finalY + 40; // The y position on the page
     console.log(finalY);
     doc.text(250, finalY, "AZAAN APP");
-    // doc.text(600, 80, 'blablabla')
-    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.city}.pdf`);
+    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.region}.pdf`);
   };
 
   return (
@@ -86,6 +93,33 @@ const Calender = ({ location, set, calenderData, type }) => {
           />
         </RadioGroup>
       </div>
+      <div className="inputs">
+        <label>Algorithm:</label>
+        <select
+          className="select"
+          onChange={(e) => setMethodType(e.target.value)}
+        >
+          {methods.map(({ id, name }, index) => (
+            <option key={index} value={id}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="inputs">
+        <label>Adjustment:</label>
+        <select
+          className="select"
+          onChange={(e) => setAdjustment(e.target.value)}
+        >
+          {AdjustmentMethod.map(({ id, name }, index) => (
+            <option key={index} value={id}>
+              {name}
+            </option>
+          ))}
+        </select>
+      </div>
+
       <div className="table-header">
         {columns.map((column, i) => (
           <div key={i}>

@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// type= translation ? "urdu_junagarhi" : "english_saheeh" , number= 1 to 114
 export function getSingleSurah(number, type) {
   return axios({
     method: "GET",
@@ -21,12 +20,18 @@ export async function getUserLocation() {
     },
   });
 }
-// time uix
-export function getPrayerTimeApi(time, latitude, longitude) {
+
+export function getPrayerTimeApi(
+  time,
+  latitude,
+  longitude,
+  method,
+  adjustment
+) {
   if (latitude || longitude) {
     return axios({
       method: "GET",
-      url: `https://api.aladhan.com/v1/timings/${time}?latitude=${latitude}&longitude=${longitude}&method=1`,
+      url: `https://api.aladhan.com/v1/timings/${time}?latitude=${latitude}&longitude=${longitude}&method=${method}&latitudeAdjustmentMethod=${adjustment}`,
       headers: {
         "Content-type": "multipart/form-data",
       },
@@ -34,10 +39,17 @@ export function getPrayerTimeApi(time, latitude, longitude) {
   }
 }
 
-export const getCalender = async (country, month, year, type) => {
+export const getCalender = async (
+  country,
+  month,
+  year,
+  type,
+  method,
+  adjustment
+) => {
   return axios({
     method: "GET",
-    url: `https://api.aladhan.com/v1/calendarByAddress?address=${country}&method=2&month=${month}&year=${year}&school=${type}`,
+    url: `https://api.aladhan.com/v1/calendarByAddress?address=${country}&method=${method}&month=${month}&year=${year}&school=${type}&latitudeAdjustmentMethod=${adjustment}`,
     headers: {
       "Content-type": "application/json",
     },
