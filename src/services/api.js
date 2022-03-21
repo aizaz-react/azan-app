@@ -13,7 +13,7 @@ export function getSingleSurah(number, type) {
 export const getAudio = (number) => {
   return axios({
     method: "GET",
-    url: `http://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
+    url: `https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
     headers: {
       "Content-type": "multipart/form-data",
     },
