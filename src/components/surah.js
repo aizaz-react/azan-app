@@ -10,12 +10,14 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Wave from "react-wavify";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import PauseCircleIcon from "@mui/icons-material/PauseCircle";
+import IconButton from "@mui/material/IconButton";
 
 const Juz = () => {
   const { id } = useParams();
   const [surahData, setSurahData] = useState();
   const [translationType, setTranslationType] = useState(true);
-  const [audioUrl, setAudioUrl] = useState("");
   const getSurah = async () => {
     setSurahData();
     try {
@@ -83,24 +85,6 @@ const Juz = () => {
         {surahData && (
           <MultiPlayer audio={surahData} translationType={translationType} />
         )}
-        {/* {surahData &&
-          surahData?.map(
-            ({ arabic_text, aya, translation, footnotes, audio }, index) => (
-              <div
-                key={index}
-                
-              >
-                <MultiPlayer
-                  arabic_text={arabic_text}
-                  aya={aya}
-                  translation={translation}
-                  footnotes={footnotes}
-                  translationType={translationType}
-                  
-                />
-              </div>
-            )
-          )} */}
       </div>
     </div>
   );
@@ -122,7 +106,9 @@ const MultiPlayer = ({ audio, translationType }) => {
           margin: "1rem ",
         }}
       >
-        <button onClick={toggle}>{player.playing ? "Pause" : "Play"}</button>
+        <IconButton onClick={toggle}>
+          {player.playing ? <PauseCircleIcon /> : <PlayCircleIcon />}
+        </IconButton>
         <Accordion style={{ flex: 1 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
