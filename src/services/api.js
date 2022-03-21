@@ -10,6 +10,16 @@ export function getSingleSurah(number, type) {
   });
 }
 
+export const getAudio = (number) => {
+  return axios({
+    method: "GET",
+    url: `http://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
+    headers: {
+      "Content-type": "multipart/form-data",
+    },
+  });
+};
+
 export async function getUserLocation() {
   return await axios({
     method: "get",
