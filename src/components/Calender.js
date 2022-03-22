@@ -44,7 +44,7 @@ const Calender = ({
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(15);
-    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.region} ${location?.country} By Azaan App.`;
+    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.city} ${location?.country} By Azaan App.`;
     let content = {
       startY: 50,
       head: [columns],
@@ -55,7 +55,7 @@ const Calender = ({
     let finalY = doc.lastAutoTable.finalY + 40; // The y position on the page
     console.log(finalY);
     doc.text(250, finalY, "AZAAN APP");
-    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.region}.pdf`);
+    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.city}.pdf`);
   };
 
   return (

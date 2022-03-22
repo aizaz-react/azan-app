@@ -13,13 +13,21 @@ const theme = createTheme();
 export default function SignInSide() {
   return (
     <ThemeProvider theme={theme}>
+      <div
+        style={{
+          backgroundImage:
+            "url(https://source.unsplash.com/random/900×400/?mosque)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "60vh",
+        }}
+      ></div>
       <Grid container>
         <CssBaseline />
         <Grid
           item
           xs={12}
-          sm={8}
-          md={4}
           style={{
             display: "flex",
             flexDirection: "column",
@@ -27,18 +35,16 @@ export default function SignInSide() {
             textAlign: "center",
           }}
         >
-          <Wave
-            className="wave"
-            fill="#3ba59a"
-            paused={false}
-            options={{
-              height: 20,
-              amplitude: 45,
-              speed: 0.1,
-              points: 5,
+          <div
+            style={{
+              marginTop: "-7rem",
+              backgroundColor: "#fff",
+              padding: "1.9rem",
+              borderRadius: "50%",
             }}
-          />
-          <Logo width="13rem" />
+          >
+            <Logo width="13rem" />
+          </div>
           <Typography
             variant="h3"
             component="div"
@@ -81,24 +87,6 @@ export default function SignInSide() {
             </Button>
           </Link>
         </Grid>
-
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={8}
-          sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random/900×700/?mosque)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
       </Grid>
     </ThemeProvider>
   );

@@ -108,7 +108,7 @@ const Prayers = () => {
           <Grid container spacing={2} marginTop={"1rem"}>
             <Grid item xs={12}>
               <Typography style={{ fontSize: "1.5rem" }}>
-                {location.region}, {location.country} {englishDate}{" "}
+                {location.city}, {location.country} {englishDate}{" "}
                 <span id="islamic-date">
                   ({day} {month} {year} )
                 </span>
