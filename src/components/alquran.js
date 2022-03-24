@@ -10,7 +10,6 @@ import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 import Wave from "react-wavify";
 import JuzButton from "./JuzButton";
 import { data } from "../data/juzAllData";
-import Masonry from "@mui/lab/Masonry";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -28,8 +27,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const Alquran = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState("");
-  const [toggled, setToggled] = useState(true);
-  const juz = Array.from({ length: 30 }, (_, i) => i + 1);
+  const [toggled, setToggled] = useState(false);
 
   const filterData = surahs?.data.filter(
     (surah) =>
@@ -39,8 +37,6 @@ const Alquran = () => {
       surah.englishNameTranslation.toLowerCase().includes(value) ||
       surah.revelationType.toLowerCase().includes(value)
   );
-
-  const filterJuz = juz.filter((item) => item.toString().includes(value));
 
   return (
     <div id="al-Quran" className="al-quran">
