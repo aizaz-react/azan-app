@@ -1,33 +1,40 @@
-import { useState, } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import { getSingleSurah } from "../services/api";
+import { juzAction } from "../redux/reducers";
+import { useDispatch, useSelector } from "react-redux";
+import SurahHeader from "./surahHeader";
+import CircularProgress from "@mui/material/CircularProgress";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Juz = () => {
-    const { id } = useParams();
-  //   const [surahData, setSurahData] = useState();
   const [translationType, setTranslationType] = useState(true);
-  //   const getSurah = async () => {
-  //     setSurahData();
-  //     try {
-  //       let { data } = await getSingleSurah(
-  //         id.split(",")[0],
-  //         translationType ? "urdu_junagarhi" : "english_saheeh"
-  //       );
-  //       setSurahData(data.result);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     getSurah();
-  //   }, [translationType]);
-
+  const { juzData, juzFilter } = useSelector((state) => state);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  let { number, from, to, juz } = juzFilter;
+  const getJuzData = async () => {
+    try {
+      let { data } = await getSingleSurah(
+        number,
+        translationType ? "urdu_junagarhi" : "english_saheeh"
+      );
+      dispatch(juzAction(data.result.slice(from, to)));
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getJuzData();
+    setLoading(true);
+  }, [translationType]);
   return (
     <div className="surah">
-      <div className="headings">
-        <h1>Chapter {id}</h1>
-      </div>
+      <SurahHeader juz={true} chapter={juz} />
       <Button
         variant="contained"
         style={{
@@ -40,33 +47,48 @@ const Juz = () => {
       >
         {translationType ? "English" : "Urdu"}
       </Button>
-      <div className="ayahs">
-        <p id="bold">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</p>
-        {/* {!surahData && (
-          <div style={{ marginTop: "10rem" }}>
-            <CircularProgress color="success" />
-          </div>
-        )} */}
-        {/* {surahData &&
-          surahData?.map(
+      {loading ? (
+        <div style={{ marginTop: "10rem" }}>
+          <CircularProgress color="success" />
+        </div>
+      ) : (
+        <div className="ayahs-juz">
+          {juzData.map(
             ({ arabic_text, aya, translation, footnotes }, index) => (
-              <div className="single-ayah">
-                <p className="arabic" id="bold">
-                  {arabic_text}({aya})
-                </p>
-                <p
-                  className={translationType ? "arabic" : "english"}
-                  id="halfbold"
+              <Accordion style={{ flex: 1 }}>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
                 >
-                  {translation}
-                </p>
-                <p className={translationType ? "arabic" : "english"}>
-                  {footnotes}
-                </p>
-              </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <p className="arabic" id="bold">
+                      {arabic_text}({aya})
+                    </p>
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <p
+                    className={translationType ? "urdu" : "english"}
+                    id="halfbold"
+                  >
+                    {translation}
+                  </p>
+                  <p className={translationType ? "urdu" : "english"}>
+                    {footnotes}
+                  </p>
+                </AccordionDetails>
+              </Accordion>
             )
-          )} */}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

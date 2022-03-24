@@ -6,8 +6,6 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Logo from "../assets/LogoBlue";
-import Wave from "react-wavify";
-
 const theme = createTheme();
 
 export default function SignInSide() {
@@ -62,6 +60,7 @@ export default function SignInSide() {
               fontWeight: "bold",
               fontSize: "1.6rem",
               padding: "1.5rem 0.5rem",
+              width: " clamp(70%, 85vw, 40%)",
             }}
           >
             <blockquote cite="">

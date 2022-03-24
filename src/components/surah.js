@@ -9,10 +9,10 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Wave from "react-wavify";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import IconButton from "@mui/material/IconButton";
+import SurahHeader from "./surahHeader";
 
 const Juz = () => {
   const { id } = useParams();
@@ -41,23 +41,11 @@ const Juz = () => {
 
   return (
     <div className="surah">
-      <Wave
-        className="wave1"
-        fill="#3ba59a"
-        paused={false}
-        options={{
-          height: 30,
-          amplitude: 50,
-          speed: 0.1,
-          points: 5,
-        }}
+      <SurahHeader
+        englishName={id.split(",")[1]}
+        enlishTranslation={id.split(",")[2]}
+        arabicName={id.split(",")[3]}
       />
-      <div className="headings">
-        <h1>{id.split(",")[1]}</h1>
-        <h1>({id.split(",")[2]})</h1>
-        <h1>{id.split(",")[3]}</h1>
-      </div>
-
       <Button
         variant="contained"
         style={{

@@ -45,7 +45,7 @@ function App() {
             />
             <Route exact path="/al-Quran" element={<Alquran />} />
             <Route exact path="/al-Quran/:id" element={<Surah />} />
-            <Route exact path="/al-Quran/juz/:id" element={<Juz />} />
+            <Route exact path="/al-Quran/juz" element={<Juz />} />
           </Routes>
         </Router>
       </div>

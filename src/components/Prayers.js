@@ -16,6 +16,9 @@ import {
 } from "../services/api";
 import moment from "moment";
 import Wave from "react-wavify";
+import { useDispatch } from "react-redux";
+import { calenderUpdate } from "../redux/reducers";
+import Clock from "./clock";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -34,9 +37,10 @@ const Prayers = () => {
   const [englishDate, setEnglishDate] = useState("");
   const [location, setLocation] = useState({});
   const [type, setType] = useState(0);
-  const [calenderData, setCalenderData] = useState([]);
   const [methodType, setMethodType] = useState(2);
   const [adjustment, setAdjustment] = useState(0);
+  const dispatch = useDispatch();
+
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
@@ -58,21 +62,20 @@ const Prayers = () => {
           methodType,
           adjustment
         ),
-        getPrayerTimeApi(time, lang, long, methodType, adjustment),
+        getPrayerTimeApi(time, lang, long, methodType, adjustment, type),
       ]);
-      setCalenderData(data?.data);
+      dispatch(calenderUpdate(data.data));
       setData(result?.data?.data);
       setDay(result?.data?.data.date?.hijri?.day);
       setMonth(result?.data?.data.date?.hijri?.month.en);
       setYear(result?.data?.data.date?.hijri?.year);
       setEnglishDate(
-        `${result?.data?.data.date.gregorian.weekday.en}, ${result?.data?.data.date.gregorian.day} ${result?.data?.data.date.gregorian.month.en} ${result?.data?.data.date.gregorian.year}`
+        ` ${result?.data?.data.date.gregorian.day} ${result?.data?.data.date.gregorian.month.en} ${result?.data?.data.date.gregorian.year}`
       );
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(location);
   useEffect(() => {
     getLocation();
   }, [time, type, methodType, adjustment]);
@@ -81,21 +84,27 @@ const Prayers = () => {
     <div>
       <div id="prayers" className="prayers">
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={5} textAlign={"start"}>
+          <Grid item xs={12} sm={4} textAlign={"center"}>
+            <Clock
+              day={data?.date?.gregorian?.weekday?.en}
+              location={`${location.city}, ${location.country}`}
+              enDate={englishDate}
+              isDate={`${day} ${month} ${year}`}
+            />
+          </Grid>
+          <Grid item xs={12} sm={8} textAlign={"center"}>
             <Typography
               variant="h5"
               component="h2"
-              style={{ fontWeight: "bold", fontSize: "1.7rem" }}
+              style={{ fontWeight: "700", fontSize: "1.7rem" }}
             >
               Azaan App give you daily prayer time as well as past and future
               time.
             </Typography>
-          </Grid>
-          <Grid item xs={12} sm={7} textAlign={"start"}>
             <Typography
               variant="h5"
               component="h2"
-              style={{ fontSize: "1.3rem" }}
+              style={{ fontSize: "1.19rem" }}
             >
               The Salat is the time when the meeting with Allah and the
               ascension (Me'raj) of the believer takes place. We all know the
@@ -104,16 +113,6 @@ const Prayers = () => {
               rewards of performing the Salat in its ' appointed time' - meaning
               right when the prime time for it sets in.
             </Typography>
-          </Grid>
-          <Grid container spacing={2} marginTop={"1rem"}>
-            <Grid item xs={12}>
-              <Typography style={{ fontSize: "1.5rem" }}>
-                {location.city}, {location.country} {englishDate}{" "}
-                <span id="islamic-date">
-                  ({day} {month} {year} )
-                </span>
-              </Typography>
-            </Grid>
           </Grid>
           <Grid container spacing={6}>
             <Grid
@@ -129,7 +128,6 @@ const Prayers = () => {
             >
               {location && (
                 <Calender
-                  calenderData={calenderData}
                   location={location}
                   set={setType}
                   type={type}

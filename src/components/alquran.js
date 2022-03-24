@@ -8,6 +8,9 @@ import surahs from "../data/surahs.json";
 import { useNavigate } from "react-router-dom";
 import FlipCameraAndroidIcon from "@mui/icons-material/FlipCameraAndroid";
 import Wave from "react-wavify";
+import JuzButton from "./JuzButton";
+import { data } from "../data/juzAllData";
+import Masonry from "@mui/lab/Masonry";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -76,71 +79,66 @@ const Alquran = () => {
         <FlipCameraAndroidIcon style={{ marginLeft: "1rem" }} />
       </Button>
       <div container className="al-quran-surahs" spacing={3}>
-        {toggled
-          ? filterData.map(
-              (
-                {
-                  englishName,
-                  number,
-                  englishNameTranslation,
-                  name,
-                  numberOfAyahs,
-                },
-                i
-              ) => (
-                <Button
-                  className="button"
-                  onClick={() =>
-                    navigate(
-                      `/al-Quran/${
-                        number +
-                        "," +
-                        englishName +
-                        "," +
-                        englishNameTranslation +
-                        "," +
-                        name
-                      }`
-                    )
-                  }
-                  variant="contained"
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "1rem",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div id="number">{number}</div>
-                    <div className="surah-name">
-                      <h4>{englishName}</h4>
-                      <p>{englishNameTranslation}</p>
-                    </div>
-                  </div>
-                  <div className="arabic-name">
-                    <h4 id="arabic">{name}</h4>
-                    <p>{numberOfAyahs} Ayahs</p>
-                  </div>
-                </Button>
-              )
-            )
-          : filterJuz.map((item) => (
+        {!toggled ? (
+          filterData.map(
+            (
+              {
+                englishName,
+                number,
+                englishNameTranslation,
+                name,
+                numberOfAyahs,
+              },
+              i
+            ) => (
               <Button
                 className="button"
+                onClick={() =>
+                  navigate(
+                    `/al-Quran/${
+                      number +
+                      "," +
+                      englishName +
+                      "," +
+                      englishNameTranslation +
+                      "," +
+                      name
+                    }`
+                  )
+                }
                 variant="contained"
-                fullWidth
-                style={{
-                  fontSize: "1.5rem",
-                  textAlign: "center",
-                  justifyContent: "center",
-                  minHeight: "3rem",
-                }}
-                onClick={() => navigate(`/al-Quran/juz/${item}`)}
               >
-                Chapter {item}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "1rem",
+                    alignItems: "center",
+                  }}
+                >
+                  <div id="number">{number}</div>
+                  <div className="surah-name">
+                    <h4>{englishName}</h4>
+                    <p>{englishNameTranslation}</p>
+                  </div>
+                </div>
+                <div className="arabic-name">
+                  <h4 id="arabic">{name}</h4>
+                  <p>{numberOfAyahs} Ayahs</p>
+                </div>
               </Button>
+            )
+          )
+        ) : (
+          <div
+            className="al-quran-surahs"
+            columns={{ xs: 1, sm: 3 }}
+            spacing={3}
+          >
+            {data.map((item, index) => (
+              <JuzButton item={item} index={index} />
             ))}
+          </div>
+        )}
       </div>
     </div>
   );

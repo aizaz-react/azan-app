@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { calenderTime } from "../functions/time";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -8,7 +7,7 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { methods, AdjustmentMethod } from "../data/rawData";
-
+import { useSelector } from "react-redux";
 const style = {
   color: "#22c1c3",
   "&.Mui-checked": {
@@ -16,19 +15,9 @@ const style = {
   },
 };
 
-const Calender = ({
-  location,
-  set,
-  calenderData,
-  type,
-  setMethodType,
-  setAdjustment,
-}) => {
-  const [state, setState] = useState(calenderData);
-  useEffect(() => {
-    setState(calenderData);
-  }, [calenderData]);
-  const data = state?.map(({ date, timings }) => [
+const Calender = ({ location, set, type, setMethodType, setAdjustment }) => {
+  const { calenderData } = useSelector((state) => state);
+  const data = calenderData?.map(({ date, timings }) => [
     date.readable,
     calenderTime(timings.Fajr),
     calenderTime(timings.Dhuhr),
@@ -37,6 +26,7 @@ const Calender = ({
     calenderTime(timings.Isha),
   ]);
   const columns = ["Date", "Fajr", "Dhuhr", "Asr", "Magrib", "Isha"];
+
   const exportPDF = () => {
     const unit = "pt";
     const size = "A4"; // Use A1, A2, A3 or A4
@@ -44,7 +34,7 @@ const Calender = ({
     const marginLeft = 40;
     const doc = new jsPDF(orientation, unit, size);
     doc.setFontSize(15);
-    const title = `Prayer time of ${state[0]?.date?.gregorian.month.en} ${state[0]?.date?.gregorian.year} of ${location?.city} ${location?.country} By Azaan App.`;
+    const title = `Prayer time of ${calenderData[0]?.date?.gregorian.month.en} ${calenderData[0]?.date?.gregorian.year} of ${location?.city} ${location?.country} By Azaan App.`;
     let content = {
       startY: 50,
       head: [columns],
@@ -55,7 +45,9 @@ const Calender = ({
     let finalY = doc.lastAutoTable.finalY + 40; // The y position on the page
     console.log(finalY);
     doc.text(250, finalY, "AZAAN APP");
-    doc.save(`${state[0]?.date?.gregorian.month.en}${location?.city}.pdf`);
+    doc.save(
+      `${calenderData[0]?.date?.gregorian.month.en}${location?.city}.pdf`
+    );
   };
 
   return (
@@ -94,32 +86,33 @@ const Calender = ({
         </RadioGroup>
       </div>
       <div className="inputs">
-        <label>Algorithm:</label>
-        <select
-          className="select"
-          onChange={(e) => setMethodType(e.target.value)}
-        >
-          {methods.map(({ id, name }, index) => (
-            <option key={index} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
+        <div>
+          <label>Algorithm:</label>
+          <select
+            className="select"
+            onChange={(e) => setMethodType(e.target.value)}
+          >
+            {methods.map(({ id, name }, index) => (
+              <option key={index} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label>Adjustment:</label>
+          <select
+            className="select"
+            onChange={(e) => setAdjustment(e.target.value)}
+          >
+            {AdjustmentMethod.map(({ id, name }, index) => (
+              <option key={index} value={id}>
+                {name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div className="inputs">
-        <label>Adjustment:</label>
-        <select
-          className="select"
-          onChange={(e) => setAdjustment(e.target.value)}
-        >
-          {AdjustmentMethod.map(({ id, name }, index) => (
-            <option key={index} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div className="table-header">
         {columns.map((column, i) => (
           <div key={i}>
@@ -131,7 +124,7 @@ const Calender = ({
         <div
           key={i}
           className="table-row"
-          style={{ background: i % 2 == 0 ? "#F4F4F4" : "#fff" }}
+          style={{ background: i % 2 === 0 ? "#F4F4F4" : "#fff" }}
         >
           {item.map((item) => (
             <div>{item}</div>

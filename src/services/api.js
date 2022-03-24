@@ -1,5 +1,15 @@
 import axios from "axios";
 
+export function getJuz(number) {
+  return axios({
+    method: "GET",
+    url: "http://api.alquran.cloud/v1/juz/30/quran-uthmani",
+    headers: {
+      "Content-type": "multipart/form-data",
+    },
+  });
+}
+
 export function getSingleSurah(number, type) {
   return axios({
     method: "GET",
@@ -36,12 +46,13 @@ export function getPrayerTimeApi(
   latitude,
   longitude,
   method,
-  adjustment
+  adjustment,
+  type
 ) {
   if (latitude || longitude) {
     return axios({
       method: "GET",
-      url: `https://api.aladhan.com/v1/timings/${time}?latitude=${latitude}&longitude=${longitude}&method=${method}&latitudeAdjustmentMethod=${adjustment}`,
+      url: `https://api.aladhan.com/v1/timings/${time}?latitude=${latitude}&longitude=${longitude}&method=${method}&latitudeAdjustmentMethod=${adjustment}&school=${type}`,
       headers: {
         "Content-type": "multipart/form-data",
       },
