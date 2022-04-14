@@ -64,9 +64,9 @@ export default function SignInSide() {
             }}
           >
             <blockquote cite="">
-              A man asked ProPhet Muhammad Peace be upon Him What kinds of deeds
+              A man asked Prophet Muhammad (Peace Be Upon Him) What kinds of deeds
               are best in the sight of God. he replied To pray on Time.
-              <br />{" "}
+              <br />
               <span style={{ fontWeight: "bold", color: "#3ba59a" }}>
                 – Sahih Bukhari
               </span>

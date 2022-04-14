@@ -41,14 +41,7 @@ export async function getUserLocation() {
   });
 }
 
-export function getPrayerTimeApi(
-  time,
-  latitude,
-  longitude,
-  method,
-  adjustment,
-  type
-) {
+export function getPrayerTimeApi(time, latitude, longitude, method, adjustment, type) {
   if (latitude || longitude) {
     return axios({
       method: "GET",
@@ -60,17 +53,10 @@ export function getPrayerTimeApi(
   }
 }
 
-export const getCalender = async (
-  country,
-  month,
-  year,
-  type,
-  method,
-  adjustment
-) => {
+export const getCalender = async (latitude, longitude, month, year, type, method, adjustment) => {
   return axios({
     method: "GET",
-    url: `https://api.aladhan.com/v1/calendarByAddress?address=${country}&method=${method}&month=${month}&year=${year}&school=${type}&latitudeAdjustmentMethod=${adjustment}`,
+    url: `https://api.aladhan.com/v1/calendar?latitude=${latitude}&longitude=${longitude}&method=${method}&month=${month}&year=${year}&school=${type}&latitudeAdjustmentMethod=${adjustment}`,
     headers: {
       "Content-type": "application/json",
     },

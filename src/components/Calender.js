@@ -17,6 +17,7 @@ const style = {
 
 const Calender = ({ location, set, type, setMethodType, setAdjustment }) => {
   const { calenderData } = useSelector((state) => state);
+  
   const data = calenderData?.map(({ date, timings }) => [
     date.readable,
     calenderTime(timings.Fajr),
