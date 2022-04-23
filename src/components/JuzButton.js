@@ -17,7 +17,7 @@ const JuzButton = ({ item, index }) => {
   const navigate = useNavigate();
   const handleClick = (item) => {
     dispatch(juzFilterAction(item));
-    navigate("/al-Quran/juz");
+    navigate(`/al-Quran/juz/${index}`);
   };
   return (
     <Item>

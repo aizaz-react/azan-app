@@ -3,17 +3,20 @@ import { Button } from "@mui/material";
 import { getSingleSurah } from "../services/api";
 import { juzAction } from "../redux/reducers";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import SurahHeader from "./surahHeader";
 import CircularProgress from "@mui/material/CircularProgress";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { data } from "../data/juzAllData";
 
 const Juz = () => {
   const [translationType, setTranslationType] = useState(true);
   const { juzData, juzFilter } = useSelector((state) => state);
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
   const dispatch = useDispatch();
   let { number, from, to, juz } = juzFilter;
   const getJuzData = async () => {
@@ -28,10 +31,25 @@ const Juz = () => {
       console.log(error);
     }
   };
+  const mergeJuz = () => {
+    data[id].map(async (item, index) => {
+      try {
+        let { data } = await getSingleSurah(
+          item.number,
+          translationType ? "urdu_junagarhi" : "english_saheeh"
+        );
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   useEffect(() => {
     getJuzData();
     setLoading(true);
+    mergeJuz();
   }, [translationType]);
+
   return (
     <div className="surah">
       <SurahHeader juz={true} chapter={juz} />

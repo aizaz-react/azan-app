@@ -13,27 +13,32 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import IconButton from "@mui/material/IconButton";
 import SurahHeader from "./surahHeader";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const Juz = () => {
   const { id } = useParams();
-  const [surahData, setSurahData] = useState();
+  const [surahData, setSurahData] = useState([]);
   const [translationType, setTranslationType] = useState(true);
   const getSurah = async () => {
-    setSurahData();
+    setSurahData([]);
     try {
-      let [{ data }, audio] = await Promise.all([
-        getSingleSurah(
-          id.split(",")[0],
-          translationType ? "urdu_junagarhi" : "english_saheeh"
-        ),
-        getAudio(id.split(",")[0]),
-      ]);
-      let { ayahs } = audio.data.data;
-      setSurahData(mergeList(ayahs, data.result));
+      let { data } = await getSingleSurah(
+        id.split(",")[0],
+        translationType ? "urdu_junagarhi" : "english_saheeh"
+      );
+      setSurahData(data.result);
     } catch (error) {
       console.error(error);
     }
   };
+
+  function modnum(number) {
+    let n = `${number}`;
+    if (n.length === 1) return `00${n}`;
+    if (n.length === 2) return `0${n}`;
+    return n;
+  }
 
   useEffect(() => {
     getSurah();
@@ -59,20 +64,58 @@ const Juz = () => {
         {translationType ? "English" : "Urdu"}
         <FlipCameraAndroidIcon style={{ marginLeft: "1rem" }} />
       </Button>
-      <div className="ayahs">
+      <div className="ayahs" style={{ display: "flex" }}>
         {id.split(",")[0] !== "9" &&
           id.split(",")[1] !== "1" &&
           id.split(",")[0] !== "1" && (
             <p id="bold">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</p>
           )}
-        {!surahData && (
-          <div style={{ marginTop: "10rem" }}>
+        <AudioPlayer
+          src={`https://server6.mp3quran.net/translation/${
+            translationType ? "ur_abdulbasit_abdulsamad" : "en_abdullah_basfer"
+          }/${modnum(id.split(",")[0])}.mp3`}
+          onPlay={(e) => console.log("onPlay")}
+          header={`Now playing: ${id.split(",")[1]}`}
+          showSkipControls={false}
+          showJumpControls={true}
+        />
+        {surahData.length === 0 && (
+          <div style={{ marginTop: "1rem" }}>
             <CircularProgress color="success" />
           </div>
         )}
-        {surahData && (
+        {surahData.map(({ arabic_text, aya, translation, footnotes }) => (
+          <Accordion style={{ flex: 1 }}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <p className="arabic" id="bold">
+                  {arabic_text}({aya})
+                </p>
+              </div>
+            </AccordionSummary>
+            <AccordionDetails>
+              <p className={translationType ? "urdu" : "english"} id="halfbold">
+                {translation}
+              </p>
+              <p className={translationType ? "urdu" : "english"}>
+                {footnotes}
+              </p>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+        {/* {surahData && (
           <MultiPlayer audio={surahData} translationType={translationType} />
-        )}
+        )} */}
       </div>
     </div>
   );

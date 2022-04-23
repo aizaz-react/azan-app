@@ -1,14 +1,14 @@
 import axios from "axios";
 
-export function getJuz(number) {
-  return axios({
-    method: "GET",
-    url: "http://api.alquran.cloud/v1/juz/30/quran-uthmani",
-    headers: {
-      "Content-type": "multipart/form-data",
-    },
-  });
-}
+// export function getJuz(number) {
+//   return axios({
+//     method: "GET",
+//     url: "http://api.alquran.cloud/v1/juz/30/quran-uthmani",
+//     headers: {
+//       "Content-type": "multipart/form-data",
+//     },
+//   });
+// }
 
 export function getSingleSurah(number, type) {
   return axios({
@@ -20,15 +20,32 @@ export function getSingleSurah(number, type) {
   });
 }
 
-export const getAudio = (number) => {
-  return axios({
-    method: "GET",
-    url: `https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
-    headers: {
-      "Content-type": "multipart/form-data",
-    },
-  });
-};
+// export const getAudio = (number, translation) => {
+//   return axios({
+//     method: "GET",
+//     url: `https://server6.mp3quran.net/translation/ur_abdulbasit_abdulsamad/${modnum(number)}.mp3`,
+//     headers: {
+//       "Content-type": "multipart/form-data",
+//     },
+//   });
+// };
+
+// function modnum(number) {
+//   let n = `${number}`
+//   if (n.length === 1) return `00${n}`
+//   if (n.length === 2) return `0${n}`
+//   return n
+// }
+
+// export const getAudio = (number) => {
+//   return axios({
+//     method: "GET",
+//     url: `https://api.alquran.cloud/v1/surah/${number}/ar.alafasy`,
+//     headers: {
+//       "Content-type": "multipart/form-data",
+//     },
+//   });
+// };
 
 export async function getUserLocation() {
   return await axios({
