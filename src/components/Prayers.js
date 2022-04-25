@@ -183,6 +183,7 @@ const Prayers = () => {
               {getFivePrayers(filterDay?.timings).map(({ prayer, time }, i) => (
                 <Button
                   style={{
+                    backgroundColor: "#fff",
                     color: "black",
                     border:
                       getPrayerTime1(getFivePrayers(data?.timings)) ===
