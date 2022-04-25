@@ -16,7 +16,7 @@ import {
 } from "../services/api";
 import moment from "moment";
 import Wave from "react-wavify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { calenderUpdate } from "../redux/reducers";
 import Clock from "./clock";
 
@@ -39,8 +39,12 @@ const Prayers = () => {
   const [type, setType] = useState(0);
   const [methodType, setMethodType] = useState(2);
   const [adjustment, setAdjustment] = useState(0);
+  const { calenderData } = useSelector((state) => state);
   const dispatch = useDispatch();
-
+  const [filterDay] = calenderData.filter(
+    (el) => el.date.gregorian.date === moment().format("DD-MM-YYYY")
+  );
+  console.log(filterDay);
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
@@ -98,8 +102,8 @@ const Prayers = () => {
               component="h2"
               style={{ fontWeight: "700", fontSize: "1.7rem" }}
             >
-              Azaan App give you daily prayer time as well as past and future
-              time.
+              World Azaan App give you daily prayer time as well as past and
+              future time.
             </Typography>
             <Typography
               variant="h5"
@@ -176,17 +180,13 @@ const Prayers = () => {
                   {data && data.timings && getTime(data?.timings?.Sunrise)}
                 </div>
               </Button>
-              {getFivePrayers(data?.timings).map(({ prayer, time }, i) => (
+              {getFivePrayers(filterDay?.timings).map(({ prayer, time }, i) => (
                 <Button
                   style={{
-                    backgroundColor:
-                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                        ? "#3ba59a"
-                        : "#fff",
-                    color:
-                      getPrayerTime1(getFivePrayers(data?.timings)) === prayer
-                        ? "#fff"
-                        : "black",
+                    color: "black",
+                    border:
+                      getPrayerTime1(getFivePrayers(data?.timings)) ===
+                        prayer && "4px solid black",
                   }}
                   className="prayer-btn"
                   variant="contained"
@@ -197,7 +197,7 @@ const Prayers = () => {
                   {getPrayerTime1(getFivePrayers(data?.timings)) === prayer && (
                     <div>{`Next Prayer`}</div>
                   )}
-                  <div>{getTime(time)}</div>
+                  <div>{time.split(" ")[0]}</div>
                 </Button>
               ))}
               <Button

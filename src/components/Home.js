@@ -51,7 +51,7 @@ export default function SignInSide() {
               color: "#3ba59a",
             }}
           >
-            Azaan App
+            World Azaan App
           </Typography>
           <Typography
             variant="blockquote"
