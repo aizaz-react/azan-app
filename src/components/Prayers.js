@@ -13,6 +13,7 @@ import {
   getUserLocation,
   getCalender,
   getPrayerTimeApi,
+  getCityName,
 } from "../services/api";
 import moment from "moment";
 import Wave from "react-wavify";
@@ -44,7 +45,32 @@ const Prayers = () => {
   const [filterDay] = calenderData.filter(
     (el) => el.date.gregorian.date === moment().format("DD-MM-YYYY")
   );
-  console.log(filterDay);
+
+  const getCurrentCity = async (latitude, longitude) => {
+    try {
+      let data = await getCityName(latitude, longitude);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getGeoLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          console.log(coords.latitude, coords.longitude, coords);
+          getCurrentCity(coords.latitude, coords.longitude);
+        },
+        (error) => {
+          console.log("not allo");
+        },
+        { timeout: 5000, enableHighAccuracy: true }
+      );
+    } else {
+      console.log("does not support");
+    }
+  };
   const getLocation = async () => {
     try {
       let { data } = await getUserLocation();
@@ -82,6 +108,7 @@ const Prayers = () => {
   };
   useEffect(() => {
     getLocation();
+    getGeoLocation();
   }, [time, type, methodType, adjustment]);
 
   return (
