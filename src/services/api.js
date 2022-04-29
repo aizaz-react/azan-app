@@ -1,5 +1,4 @@
 import axios from "axios";
-console.log(process.env.REACT_APP_GOOGLE_APIKEY);
 
 export function getSingleSurah(number, type) {
   return axios({

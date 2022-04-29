@@ -18,7 +18,7 @@ import {
 import moment from "moment";
 import Wave from "react-wavify";
 import { useDispatch, useSelector } from "react-redux";
-import { calenderUpdate } from "../redux/reducers";
+import { calenderUpdate, addressInfo } from "../redux/reducers";
 import Clock from "./clock";
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -40,16 +40,19 @@ const Prayers = () => {
   const [type, setType] = useState(0);
   const [methodType, setMethodType] = useState(2);
   const [adjustment, setAdjustment] = useState(0);
-  const { calenderData } = useSelector((state) => state);
+  const { calenderData, address } = useSelector((state) => state);
   const dispatch = useDispatch();
   const [filterDay] = calenderData.filter(
     (el) => el.date.gregorian.date === moment().format("DD-MM-YYYY")
   );
-
   const getCurrentCity = async (latitude, longitude) => {
     try {
-      let data = await getCityName(latitude, longitude);
-      console.log(data);
+      let { data } = await getCityName(latitude, longitude);
+      let { compound_code } = data.plus_code;
+      let result = compound_code.split(" ");
+      result.shift();
+      dispatch(addressInfo(result.join(",").replace(",", " ")));
+      data && getPrayerTime(compound_code, latitude, longitude);
     } catch (error) {
       console.log(error);
     }
@@ -59,19 +62,20 @@ const Prayers = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
-          console.log(coords.latitude, coords.longitude, coords);
           getCurrentCity(coords.latitude, coords.longitude);
         },
         (error) => {
-          console.log("not allo");
+          getLocation();
         },
         { timeout: 5000, enableHighAccuracy: true }
       );
     } else {
-      console.log("does not support");
+      getLocation();
     }
   };
+
   const getLocation = async () => {
+    console.log("call");
     try {
       let { data } = await getUserLocation();
       setLocation(data);
@@ -106,8 +110,9 @@ const Prayers = () => {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    getLocation();
+    // getLocation();
     getGeoLocation();
   }, [time, type, methodType, adjustment]);
 
@@ -118,7 +123,7 @@ const Prayers = () => {
           <Grid item xs={12} sm={4} textAlign={"center"}>
             <Clock
               day={data?.date?.gregorian?.weekday?.en}
-              location={`${location.city}, ${location.country}`}
+              location={`${address}`}
               enDate={englishDate}
               isDate={`${day} ${month} ${year}`}
             />
