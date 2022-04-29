@@ -75,10 +75,10 @@ const Prayers = () => {
   };
 
   const getLocation = async () => {
-    console.log("call");
     try {
       let { data } = await getUserLocation();
       setLocation(data);
+      dispatch(addressInfo(`${data.city}, ${data.country}`));
       data && getPrayerTime(data.country, data?.latitude, data?.longitude);
     } catch (error) {
       console.log(error);
