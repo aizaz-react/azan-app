@@ -112,21 +112,13 @@ const Prayers = () => {
   };
 
   useEffect(() => {
-    // getLocation();
     getGeoLocation();
+    navigator.permissions
+      .query({ name: "geolocation" })
+      .then(function (result) {
+        alert(result.state);
+      });
   }, [time, type, methodType, adjustment]);
-
-const timings = {
-  "Fajr": "03:57",
-  "Sunrise": "05:46",
-  "Dhuhr": "12:59",
-  "Asr": "16:55",
-  "Sunset": "20:12",
-  "Maghrib": "20:12",
-  "Isha": "22:02",
-  "Imsak": "03:47",
-  "Midnight": "00:59"
-  }
 
   return (
     <div>
@@ -158,7 +150,7 @@ const timings = {
               ascension (Me'raj) of the believer takes place. We all know the
               importance of this obligatory act, and thus, we do not wish to
               delve into that area. Rather, we want to look at the greatness and
-              rewards of performing the Salat in its ' appointed time' - meaning
+              rewards of performing the Salat in its 'appointed time' - meaning
               right when the prime time for it sets in.
             </Typography>
           </Grid>
@@ -238,7 +230,6 @@ const timings = {
                   fullWidth
                   key={i}
                 >
-                  {console.log(moment(time).format(""))}
                   <div>{prayer}</div>
                   {getPrayerTime1(getFivePrayers(data?.timings)) === prayer && (
                     <div>{`Next Prayer`}</div>
