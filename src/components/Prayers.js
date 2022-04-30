@@ -116,7 +116,7 @@ const Prayers = () => {
     navigator.permissions
       .query({ name: "geolocation" })
       .then(function (result) {
-        alert(result.state);
+        console.log(result.state);
       });
   }, [time, type, methodType, adjustment]);
 
