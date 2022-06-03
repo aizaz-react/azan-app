@@ -39,12 +39,12 @@ export default function SignInSide() {
           height: "60vh",
         }}
       ></div>
-      <Autocomplete
+      {/* <Autocomplete
         apiKey={"AIzaSyAKB2FsqaJrptmP0dDSkzqL8DzVAX8PplU"}
         onPlaceSelected={(place) => {
           console.log(place);
         }}
-      />
+      /> */}
       <Grid container>
         <CssBaseline />
         <Grid
@@ -75,7 +75,7 @@ export default function SignInSide() {
               color: "#3ba59a",
             }}
           >
-            World Azaan Time
+            World Azan Time
           </Typography>
           <Typography
             variant="blockquote"
@@ -102,7 +102,7 @@ export default function SignInSide() {
                 backgroundColor: "#FEC265",
                 fontWeight: "bold",
                 color: "black",
-                width: "8rem",
+                width: "10rem",
               }}
               variant="contained"
             >

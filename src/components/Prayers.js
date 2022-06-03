@@ -62,6 +62,7 @@ const Prayers = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
+          console.log('-=-=-= ', coords)
           getCurrentCity(coords.latitude, coords.longitude);
         },
         (error) => {
@@ -110,9 +111,10 @@ const Prayers = () => {
       console.log(error);
     }
   };
-
+  console.log("====================================================== ")
   useEffect(() => {
     getGeoLocation();
+
     navigator.permissions
       .query({ name: "geolocation" })
       .then(function (result) {
@@ -138,7 +140,7 @@ const Prayers = () => {
               component="h2"
               style={{ fontWeight: "700", fontSize: "1.7rem" }}
             >
-              World Azaan App give you daily prayer time as well as past and
+              World Azan Time give you daily prayer time as well as past and
               future time.
             </Typography>
             <Typography
@@ -223,7 +225,7 @@ const Prayers = () => {
                     color: "black",
                     border:
                       getPrayerTime1(getFivePrayers(data?.timings)) ===
-                        prayer && "4px solid black",
+                      prayer && "4px solid black",
                   }}
                   className="prayer-btn"
                   variant="contained"
@@ -268,14 +270,14 @@ const Prayers = () => {
       <h4
         style={{
           backgroundColor: "#3ba59a",
-          marginTop: "-7px",
-          paddingBottom: "5px",
+          marginTop: "-8px",
+          paddingBottom: "40px",
           color: "rgba(255,255,255,0.9)",
           textTransform: "capitalize",
           fontFamily: "Nunito",
         }}
       >
-        world azan time do not hold or share any your web visitor information on
+        World Azan time do not hold or share any your web visitor information on
         this website.
       </h4>
     </div>
