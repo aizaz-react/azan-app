@@ -265,6 +265,19 @@ const Prayers = () => {
           points: 5,
         }}
       />
+      <h4
+        style={{
+          backgroundColor: "#3ba59a",
+          marginTop: "-7px",
+          paddingBottom: "5px",
+          color: "rgba(255,255,255,0.9)",
+          textTransform: "capitalize",
+          fontFamily: "Nunito",
+        }}
+      >
+        world azan time do not hold or share any your web visitor information on
+        this website.
+      </h4>
     </div>
   );
 };

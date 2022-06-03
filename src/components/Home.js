@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -6,9 +6,27 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Logo from "../assets/LogoBlue";
+import Autocomplete from "react-google-autocomplete";
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  getLatLng,
+} from "react-places-autocomplete";
 const theme = createTheme();
 
 export default function SignInSide() {
+  const [state, setState] = useState({
+    address: "",
+  });
+  const handleChange = (address) => {
+    setState({ ...state, address: address });
+  };
+  const handleSelect = (address) => {
+    geocodeByAddress(address)
+      .then((results) => getLatLng(results[0]))
+      .then((latLng) => console.log("Success", latLng))
+      .catch((error) => console.error("Error", error));
+  };
   return (
     <ThemeProvider theme={theme}>
       <div
@@ -21,6 +39,12 @@ export default function SignInSide() {
           height: "60vh",
         }}
       ></div>
+      <Autocomplete
+        apiKey={"AIzaSyAKB2FsqaJrptmP0dDSkzqL8DzVAX8PplU"}
+        onPlaceSelected={(place) => {
+          console.log(place);
+        }}
+      />
       <Grid container>
         <CssBaseline />
         <Grid
@@ -51,7 +75,7 @@ export default function SignInSide() {
               color: "#3ba59a",
             }}
           >
-            World Azaan App
+            World Azaan Time
           </Typography>
           <Typography
             variant="blockquote"
